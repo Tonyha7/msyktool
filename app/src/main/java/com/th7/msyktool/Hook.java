@@ -1,8 +1,6 @@
 package com.th7.msyktool;
 
-import android.app.Application;
 import android.content.Context;
-import android.widget.Toast;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -29,17 +27,9 @@ public class Hook implements IXposedHookLoadPackage {
                                     loginUserId = (String) param.args[0];
                                     //XposedBridge.log("th7's msyktool:"+loginUserId);
                                 }
-                                @Override
-                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                    super.afterHookedMethod(param);
-                                }
                             });
 
                             XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.util.PublicKeyUtil", classLoader, "signatureVerify", java.lang.String.class, new XC_MethodHook() {
-                                @Override
-                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                    super.beforeHookedMethod(param);
-                                }
                                 @Override
                                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                     super.afterHookedMethod(param);
@@ -48,6 +38,16 @@ public class Hook implements IXposedHookLoadPackage {
                                     param.setResult(result);
                                 }
                             });
+
+                            XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.activity.student.homework.detail.dtk.StudentDtkHwDetailPresenter", classLoader, "setLongTime", long.class, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    super.beforeHookedMethod(param);
+                                    param.args[0]=0;
+                                }
+                            });
+
+
                         }
                     });
 
