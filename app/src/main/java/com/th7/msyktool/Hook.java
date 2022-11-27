@@ -18,7 +18,7 @@ public class Hook implements IXposedHookLoadPackage {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             super.afterHookedMethod(param);
-                            final Context context = (Context) param.args[0];
+                            Context context = (Context) param.args[0];
                             ClassLoader classLoader = context.getClassLoader();
                             XposedHelpers.findAndHookConstructor("com.zdsoft.newsquirrel.android.entity.LoginUser", classLoader, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, int.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, int.class, int.class, java.lang.String.class, int.class, int.class, int.class, new XC_MethodHook() {
                                 @Override
@@ -33,9 +33,13 @@ public class Hook implements IXposedHookLoadPackage {
                                 @Override
                                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                     super.afterHookedMethod(param);
-                                    //XposedBridge.log("th7's msyktool:"+(String) param.getResult());
-                                    String result = loginUserId+":402881"+loginUserId+":"+System.currentTimeMillis();
-                                    param.setResult(result);
+                                    String sign = (String) param.getResult();
+                                    XposedBridge.log("th7's msyktool:SignDec:"+sign);
+                                    String[] split = sign.split(":");
+                                    String full_sign = split[1]+loginUserId;
+                                    XposedBridge.log("th7's msyktool:FullSign:"+full_sign);
+                                    //String result = loginUserId+":402881"+loginUserId+":"+System.currentTimeMillis();
+                                    //param.setResult(result);
                                 }
                             });
 
@@ -47,6 +51,45 @@ public class Hook implements IXposedHookLoadPackage {
                                 }
                             });
 
+                            XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.activity.student.homework.detail.StudentHomeworkDetailPresenter", classLoader, "setLongTime", long.class, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    super.beforeHookedMethod(param);
+                                    param.args[0]=0;
+                                }
+                            });
+
+                            XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.entity.Homework", classLoader, "setLongTime", long.class, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    super.beforeHookedMethod(param);
+                                    param.args[0]=0;
+                                }
+                            });
+
+                            XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.activity.student.errornotenew.systemexercise.SystemBrushExerciseDoPresenter", classLoader, "setLongTime", long.class, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    super.beforeHookedMethod(param);
+                                    param.args[0]=0;
+                                }
+                            });
+
+                            XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.activity.student.errornotenew.StudentErrorNoteDoPresenter", classLoader, "setLongTime", long.class, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    super.beforeHookedMethod(param);
+                                    param.args[0]=0;
+                                }
+                            });
+
+                            XposedHelpers.findAndHookMethod("com.zdsoft.newsquirrel.android.entity.StudentHomeWork", classLoader, "setLongTime", long.class, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    super.beforeHookedMethod(param);
+                                    param.args[0]=0;
+                                }
+                            });
 
                         }
                     });
